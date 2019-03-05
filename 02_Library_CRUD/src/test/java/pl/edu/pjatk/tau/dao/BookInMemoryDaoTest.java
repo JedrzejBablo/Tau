@@ -8,6 +8,8 @@ import org.junit.runners.JUnit4;
 import pl.edu.pjatk.tau.domain.Book;
 
 import java.util.Collections;
+import java.util.Optional;
+import static org.hamcrest.CoreMatchers.is;
 
 @RunWith(JUnit4.class)
 public class BookInMemoryDaoTest {
@@ -37,4 +39,11 @@ public class BookInMemoryDaoTest {
         Assert.assertArrayEquals(dao.books.toArray(),dao.getAll().toArray());
         Assert.assertEquals(dao.books.size(),dao.getAll().size());
     }
+
+    @Test
+    public void getBookById(){
+        Optional<Book> b = dao.get(1);
+        Assert.assertThat(b.get().getTitle(), is("Harry Potter"));
+    }
+
 }
