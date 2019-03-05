@@ -9,8 +9,11 @@ public class BookInMemoryDao implements Dao<Book> {
     public List<Book> books = new ArrayList<>();
 
     @Override
-    public void save(Book o) {
+    public Long save(Book o) throws IllegalArgumentException {
+        if (books.stream().anyMatch(x -> x.getId().equals(o.getId())))
+            throw new IllegalArgumentException("book exist");
         books.add(o);
+        return o.getId();
     }
 
     @Override
@@ -19,10 +22,25 @@ public class BookInMemoryDao implements Dao<Book> {
     }
 
     @Override
-    public Optional<Book> get(int id) throws IllegalArgumentException  {
-        if(books.get(id) == null ){
-            throw new IllegalArgumentException("error");
-        }
-        return Optional.ofNullable(books.get(id));
+    public Optional<Book> getById(Long id) throws IllegalArgumentException  {
+        if (!books.stream().anyMatch(x -> x.getId().equals(id)))
+            throw new IllegalArgumentException("book not exist");
+        return books.stream().filter(x -> x.getId().equals(id)).findFirst();
+    }
+
+    @Override
+    public Long delete(Book o) {
+        Long id = o.getId();
+        books.remove(o);
+        return id;
+    }
+
+    @Override
+    public Long update(Book o) throws IllegalArgumentException{
+        if(!books.contains(o))
+            throw new IllegalArgumentException("Book not exist");
+        Book b =books.get(o.getId().intValue()-1);
+        b=o;
+        return o.getId();
     }
 }

@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface Dao<T> {
-    void save(Book o);
+    Long save(T o);
     List<T> getAll();
-    Optional<T> get(int id);
+    Optional<T> getById(Long id);
+    Long delete(T o);
+    Long update(T o);
 }
