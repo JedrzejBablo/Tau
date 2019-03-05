@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b38090fb-8306-40ae-b87c-bd806b99177d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/edu/pjatk/tau/dao/BookInMemoryDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/edu/pjatk/tau/dao/BookInMemoryDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/edu/pjatk/tau/dao/Dao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/edu/pjatk/tau/dao/Dao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/pl/edu/pjatk/tau/dao/BookInMemoryDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pl/edu/pjatk/tau/dao/BookInMemoryDaoTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -49,7 +51,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/pl/edu/pjatk/tau/dao/Dao.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="170">
@@ -61,11 +63,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/pl/edu/pjatk/tau/dao/BookInMemoryDao.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" column="16" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
+            <state relative-caret-position="85">
+              <caret line="5" column="26" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#265#266#0" expanded="true" />
@@ -80,8 +82,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/pl/edu/pjatk/tau/dao/BookInMemoryDaoTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="37">
-              <caret line="18" column="49" lean-forward="true" selection-start-line="18" selection-start-column="49" selection-end-line="18" selection-end-column="49" />
+            <state relative-caret-position="167">
+              <caret line="32" column="28" selection-start-line="32" selection-start-column="28" selection-end-line="32" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#385#386#0" expanded="true" />
@@ -112,9 +114,9 @@
         <option value="$PROJECT_DIR$/src/main/java/pl/edu/pjatk/tau/domain/Library.java" />
         <option value="$PROJECT_DIR$/src/test/java/pl/edu/pjatk/tau/domain/BookTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/pl/edu/pjatk/tau/domain/Book.java" />
-        <option value="$PROJECT_DIR$/src/test/java/pl/edu/pjatk/tau/dao/BookInMemoryDaoTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/pl/edu/pjatk/tau/dao/Dao.java" />
         <option value="$PROJECT_DIR$/src/main/java/pl/edu/pjatk/tau/dao/BookInMemoryDao.java" />
+        <option value="$PROJECT_DIR$/src/test/java/pl/edu/pjatk/tau/dao/BookInMemoryDaoTest.java" />
       </list>
     </option>
   </component>
@@ -231,7 +233,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551779552249" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551779578064" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
@@ -316,7 +318,7 @@
       <option name="presentableId" value="Default" />
       <updated>1551773194623</updated>
       <workItem from="1551773204206" duration="1284000" />
-      <workItem from="1551774668072" duration="4644000" />
+      <workItem from="1551774668072" duration="4898000" />
     </task>
     <servers />
   </component>
@@ -339,12 +341,15 @@
     <history-entry file="BookInMemoryDaoTest - 2019.03.05 at 10h 45m 00s.xml">
       <configuration name="BookInMemoryDaoTest" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="BookInMemoryDaoTest - 2019.03.05 at 10h 51m 53s.xml">
+      <configuration name="BookInMemoryDaoTest" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5928000" />
+    <option name="totallyTimeSpent" value="6182000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="733" y="60" width="1400" height="970" extended-state="0" />
+    <frame x="554" y="72" width="1400" height="964" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25373134" />
@@ -356,7 +361,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3297491" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.33212996" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -438,12 +443,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/pl/edu/pjatk/tau/dao/BookInMemoryDaoTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="37">
-          <caret line="18" column="49" lean-forward="true" selection-start-line="18" selection-start-column="49" selection-end-line="18" selection-end-column="49" />
+        <state relative-caret-position="167">
+          <caret line="32" column="28" selection-start-line="32" selection-start-column="28" selection-end-line="32" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#385#386#0" expanded="true" />
             <element signature="e#426#427#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/edu/pjatk/tau/dao/BookInMemoryDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="26" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#265#266#0" expanded="true" />
+            <element signature="e#293#294#0" expanded="true" />
+            <element signature="e#347#348#0" expanded="true" />
+            <element signature="e#376#377#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -454,20 +473,6 @@
           <caret line="10" column="28" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/edu/pjatk/tau/dao/BookInMemoryDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="16" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#265#266#0" expanded="true" />
-            <element signature="e#293#294#0" expanded="true" />
-            <element signature="e#347#348#0" expanded="true" />
-            <element signature="e#376#377#0" expanded="true" />
           </folding>
         </state>
       </provider>
