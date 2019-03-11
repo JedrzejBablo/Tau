@@ -10,7 +10,7 @@ public class BookInMemoryDao implements Dao<Book> {
 
     @Override
     public Long save(Book o) throws IllegalArgumentException {
-        if (books.stream().anyMatch(x -> x.getId().equals(o.getId())))
+        if (books.stream().anyMatch(book -> book.getId().equals(o.getId())))
             throw new IllegalArgumentException("book exist");
         books.add(o);
         return o.getId();
@@ -22,10 +22,10 @@ public class BookInMemoryDao implements Dao<Book> {
     }
 
     @Override
-    public Optional<Book> getById(Long id) throws IllegalArgumentException  {
-        if (!books.stream().anyMatch(x -> x.getId().equals(id)))
+    public Optional<Book> get(Long id) throws IllegalArgumentException  {
+        if (!books.stream().anyMatch(book -> book.getId().equals(id)))
             throw new IllegalArgumentException("book not exist");
-        return books.stream().filter(x -> x.getId().equals(id)).findFirst();
+        return books.stream().filter(book -> book.getId().equals(id)).findFirst();
     }
 
     @Override
@@ -36,11 +36,12 @@ public class BookInMemoryDao implements Dao<Book> {
     }
 
     @Override
-    public Long update(Book o) throws IllegalArgumentException{
-        if(!books.contains(o))
-            throw new IllegalArgumentException("Book not exist");
-        Book b =books.get(o.getId().intValue()-1);
-        b=o;
+    public Long update(Book o) throws IndexOutOfBoundsException {
+        if(books.get(o.getId().intValue()) == null) {
+            throw new IllegalArgumentException("Book not exist"); }
+        Book b = books.get(o.getId().intValue() - 1);
+        b.setTitle(o.getTitle());
+        b.setYear(o.getYear());
         return o.getId();
     }
 }

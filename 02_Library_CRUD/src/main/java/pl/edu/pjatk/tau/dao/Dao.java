@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface Dao<T> {
-    Long save(T o);
+    Long save(Book o) throws IllegalArgumentException;
     List<T> getAll();
-    Optional<T> getById(Long id);
+    Optional<T> get(Long id) throws IllegalArgumentException;
     Long delete(T o);
-    Long update(T o);
+    Long update(T o) throws IndexOutOfBoundsException;
 }

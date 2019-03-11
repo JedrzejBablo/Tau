@@ -1,5 +1,7 @@
 package pl.edu.pjatk.tau.domain;
 
+import java.util.Objects;
+
 public class Book {
 
     private Long id;
@@ -38,4 +40,5 @@ public class Book {
     public void setYear(int year) {
         this.year = year;
     }
+
 }

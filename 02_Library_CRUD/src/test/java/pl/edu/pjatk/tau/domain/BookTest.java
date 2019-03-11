@@ -7,7 +7,8 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class BookTest {
-    @Test
+
+     @Test
     public void checkBook() {
         Book book = new Book(1L, "Wiedzmin", 2003);
         Assert.assertNotNull(book);
