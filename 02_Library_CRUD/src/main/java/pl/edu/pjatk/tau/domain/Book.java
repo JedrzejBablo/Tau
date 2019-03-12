@@ -1,7 +1,5 @@
 package pl.edu.pjatk.tau.domain;
 
-import java.util.Objects;
-
 public class Book {
 
     private Long id;
