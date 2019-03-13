@@ -3,11 +3,15 @@ package pl.edu.pjatk.tau.dao;
 import pl.edu.pjatk.tau.domain.Book;
 
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class BookDaoJdbcImpl implements BookDao {
 
     private Connection connection;
     private PreparedStatement addBookStmt;
+    private PreparedStatement getAllBooksStmt;
+    private PreparedStatement getBookStmt;
 
 
     public BookDaoJdbcImpl() throws SQLException {
@@ -18,7 +22,9 @@ public class BookDaoJdbcImpl implements BookDao {
         // if (!isDatabaseReady()) {
         //    createTables();
         //}
-
+        if (!isDatabaseReady()) {
+            createTables();
+        }
         setConnection(connection);
     }
 
@@ -56,12 +62,31 @@ public class BookDaoJdbcImpl implements BookDao {
             count = addBookStmt.executeUpdate();
             ResultSet generatedKeys = addBookStmt.getGeneratedKeys();
             if (generatedKeys.next()) {
-                Book.setId(generatedKeys.getLong(1));
+                book.setId(generatedKeys.getLong(1));
             }
         } catch (SQLException e) {
             throw new IllegalStateException(e.getMessage() + "\n" + e.getStackTrace().toString());
         }
         return count;
+    }
+
+    public List<Book> getAllBooks() {
+        List<Book> bookss = new LinkedList<>();
+        try {
+            ResultSet rs = getAllBooksStmt.executeQuery();
+
+            while (rs.next()) {
+                Book b = new Book();
+                b.setId(rs.getLong("id"));
+                b.setTitle(rs.getString("title"));
+                b.setYear(rs.getInt("year"));
+                bookss.add(b);
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalStateException(e.getMessage() + "\n" + e.getStackTrace().toString());
+        }
+        return bookss;
     }
 
     @Override
@@ -75,5 +100,27 @@ public class BookDaoJdbcImpl implements BookDao {
         addBookStmt = connection.prepareStatement(
                 "INSERT INTO Book(title, year) VALUES (?, ?)",
                 Statement.RETURN_GENERATED_KEYS);
+        getAllBooksStmt = connection.prepareStatement("SELECT id, title, year FROM Book ORDER BY id");
+        getBookStmt = connection.prepareStatement("SELECT id, title, year FROM Book WHERE id = ?");
+    }
+
+    @Override
+    public Book getBook(long id) throws SQLException {
+        try {
+            getBookStmt.setLong(1, id);
+            ResultSet rs = getBookStmt.executeQuery();
+
+            if (rs.next()) {
+                Book d = new Book();
+                d.setId(rs.getLong("id"));
+                d.setTitle(rs.getString("title"));
+                d.setYear(rs.getInt("year"));
+                return d;
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalStateException(e.getMessage() + "\n" + e.getStackTrace().toString());
+        }
+        throw new SQLException("Book with id " + id + " does not exist");
     }
 }

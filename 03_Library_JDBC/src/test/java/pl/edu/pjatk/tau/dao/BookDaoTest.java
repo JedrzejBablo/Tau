@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 
 public class BookDaoTest {
 
@@ -73,6 +74,27 @@ public class BookDaoTest {
         book.setTitle("B");
         book.setYear(100);
         Assert.assertEquals(1, bookManager.addBook(book));
+        expectedDbState.add(book);
+        Assert.assertThat(bookManager.getAllBooks(), equalTo(expectedDbState));
 
     }
+
+    @Test
+    public void checkGettingAll() {
+        Assert.assertThat(bookManager.getAllBooks(), equalTo(expectedDbState));
+    }
+
+    @Test
+    public void checkGettingById() throws Exception {
+        Book book = expectedDbState.get(5);
+        Assert.assertEquals(book, bookManager.getBook(book.getId()));
+    }
+
+    @Test(expected = Exception.class)
+    public void checkGettingByIdException() throws Exception {
+        Book book = expectedDbState.get(12);
+        Assert.assertEquals(book, bookManager.getBook(book.getId()));
+
+    }
+
 }

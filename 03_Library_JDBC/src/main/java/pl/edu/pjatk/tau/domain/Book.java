@@ -52,9 +52,9 @@ public class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return year == book.year &&
-                Objects.equals(id, book.id) &&
-                Objects.equals(title, book.title);
+        return Objects.equals(id, book.id) &&
+                Objects.equals(title, book.title) &&
+                Objects.equals(year, book.year);
     }
 
     @Override
