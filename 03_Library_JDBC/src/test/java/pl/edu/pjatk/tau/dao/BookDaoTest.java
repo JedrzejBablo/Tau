@@ -71,8 +71,8 @@ public class BookDaoTest {
     @Test
     public void checkAdding() throws Exception {
         Book book = new Book();
-        book.setTitle("B");
-        book.setYear(100);
+        book.setTitle("Wiedzmin");
+        book.setYear(1997);
         Assert.assertEquals(1, bookManager.addBook(book));
         expectedDbState.add(book);
         Assert.assertThat(bookManager.getAllBooks(), equalTo(expectedDbState));
@@ -96,5 +96,21 @@ public class BookDaoTest {
         Assert.assertEquals(book, bookManager.getBook(book.getId()));
 
     }
+
+    @Test()
+    public void checkUpdatingSuccess() throws SQLException {
+        Book b = expectedDbState.get(3);
+        b.setTitle("Wiedzmin");
+        expectedDbState.set(3, b);
+        Assert.assertEquals(1, bookManager.updateBook(b));
+        Assert.assertThat(bookManager.getAllBooks(), equalTo(expectedDbState));
+    }
+
+    @Test(expected = SQLException.class)
+    public void checkUpdatingFailure() throws SQLException {
+        Book b = new Book("Wiedzmin", 2003);
+        Assert.assertEquals(1, bookManager.updateBook(b));
+    }
+
 
 }

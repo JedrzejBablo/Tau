@@ -12,6 +12,7 @@ public class BookDaoJdbcImpl implements BookDao {
     private PreparedStatement addBookStmt;
     private PreparedStatement getAllBooksStmt;
     private PreparedStatement getBookStmt;
+    private PreparedStatement updateBookStmt;
 
 
     public BookDaoJdbcImpl() throws SQLException {
@@ -70,6 +71,26 @@ public class BookDaoJdbcImpl implements BookDao {
         return count;
     }
 
+    @Override
+    public int updateBook(Book book) throws SQLException {
+        int count = 0;
+        try {
+            updateBookStmt.setString(1, book.getTitle());
+            updateBookStmt.setInt(2, book.getYear());
+            if (book.getId() != null) {
+                updateBookStmt.setLong(3, book.getId());
+            } else {
+                updateBookStmt.setLong(3, -1);
+            }
+            count = updateBookStmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new IllegalStateException(e.getMessage() + "\n" + e.getStackTrace().toString());
+        }
+        if (count <= 0)
+            throw new SQLException("Book not found for update");
+        return count;
+    }
+
     public List<Book> getAllBooks() {
         List<Book> bookss = new LinkedList<>();
         try {
@@ -102,6 +123,7 @@ public class BookDaoJdbcImpl implements BookDao {
                 Statement.RETURN_GENERATED_KEYS);
         getAllBooksStmt = connection.prepareStatement("SELECT id, title, year FROM Book ORDER BY id");
         getBookStmt = connection.prepareStatement("SELECT id, title, year FROM Book WHERE id = ?");
+        updateBookStmt = connection.prepareStatement("UPDATE Book SET title=?,year=? WHERE id = ?");
     }
 
     @Override

@@ -16,4 +16,6 @@ public interface BookDao {
     List<Book> getAllBooks();
 
     Book getBook(long id) throws SQLException;
+
+    int updateBook(Book book) throws SQLException;
 }
