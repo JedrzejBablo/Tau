@@ -13,6 +13,7 @@ public class BookDaoJdbcImpl implements BookDao {
     private PreparedStatement getAllBooksStmt;
     private PreparedStatement getBookStmt;
     private PreparedStatement updateBookStmt;
+    private PreparedStatement deleteBookStmt;
 
 
     public BookDaoJdbcImpl() throws SQLException {
@@ -124,6 +125,7 @@ public class BookDaoJdbcImpl implements BookDao {
         getAllBooksStmt = connection.prepareStatement("SELECT id, title, year FROM Book ORDER BY id");
         getBookStmt = connection.prepareStatement("SELECT id, title, year FROM Book WHERE id = ?");
         updateBookStmt = connection.prepareStatement("UPDATE Book SET title=?,year=? WHERE id = ?");
+        deleteBookStmt = connection.prepareStatement("DELETE FROM Book where id = ?");
     }
 
     @Override
@@ -144,5 +146,15 @@ public class BookDaoJdbcImpl implements BookDao {
             throw new IllegalStateException(e.getMessage() + "\n" + e.getStackTrace().toString());
         }
         throw new SQLException("Book with id " + id + " does not exist");
+    }
+
+    @Override
+    public int deleteBook(Book book) {
+        try {
+            deleteBookStmt.setLong(1, book.getId());
+            return deleteBookStmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new IllegalStateException(e.getMessage() + "\n" + e.getStackTrace().toString());
+        }
     }
 }

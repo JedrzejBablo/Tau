@@ -18,4 +18,6 @@ public interface BookDao {
     Book getBook(long id) throws SQLException;
 
     int updateBook(Book book) throws SQLException;
+
+    int deleteBook(Book book);
 }

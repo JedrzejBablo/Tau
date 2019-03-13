@@ -112,5 +112,13 @@ public class BookDaoTest {
         Assert.assertEquals(1, bookManager.updateBook(b));
     }
 
+    @Test(expected = SQLException.class)
+    public void checkDeleting() throws SQLException {
+        Book b = expectedDbState.get(3);
+        expectedDbState.remove(b);
+        Assert.assertEquals(1, bookManager.deleteBook(b));
+        Assert.assertThat(bookManager.getAllBooks(), equalTo(expectedDbState));
+        Assert.assertNull(bookManager.getBook(b.getId()));
+    }
 
 }
