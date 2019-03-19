@@ -109,16 +109,24 @@ public class BookDaoTest {
     @Test(expected = SQLException.class)
     public void checkUpdatingFailure() throws SQLException {
         Book b = new Book("Wiedzmin", 2003);
-        Assert.assertEquals(1, bookManager.updateBook(b));
+        bookManager.updateBook(b);
     }
 
-    @Test(expected = SQLException.class)
+    @Test()
     public void checkDeleting() throws SQLException {
-        Book b = expectedDbState.get(3);
+        Book b = expectedDbState.get(1);
         expectedDbState.remove(b);
         Assert.assertEquals(1, bookManager.deleteBook(b));
         Assert.assertThat(bookManager.getAllBooks(), equalTo(expectedDbState));
-        Assert.assertNull(bookManager.getBook(b.getId()));
     }
+
+    @Test(expected = SQLException.class)
+    public void checkDeletingFailure() throws SQLException {
+        Book book = new Book("Wiedzmin", 2003);
+        book.setId(3000L);
+        bookManager.deleteBook(book);
+    }
+
+    
 
 }

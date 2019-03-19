@@ -19,5 +19,5 @@ public interface BookDao {
 
     int updateBook(Book book) throws SQLException;
 
-    int deleteBook(Book book);
+    int deleteBook(Book book) throws SQLException;
 }

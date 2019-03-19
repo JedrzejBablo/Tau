@@ -149,12 +149,11 @@ public class BookDaoJdbcImpl implements BookDao {
     }
 
     @Override
-    public int deleteBook(Book book) {
-        try {
-            deleteBookStmt.setLong(1, book.getId());
-            return deleteBookStmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new IllegalStateException(e.getMessage() + "\n" + e.getStackTrace().toString());
-        }
-    }
+    public int deleteBook(Book book) throws SQLException {
+        deleteBookStmt.setLong(1, book.getId());
+        int count=deleteBookStmt.executeUpdate();
+        if (count <= 0)
+            throw new SQLException("Phone not found for update");
+        return count;
+}
 }
