@@ -16,4 +16,6 @@ public interface BookDao {
     public int addBook(Book book) throws SQLException;
 
     public Book getBook(long id) throws SQLException;
+
+    public int deleteBook(Book book) throws SQLException;
 }

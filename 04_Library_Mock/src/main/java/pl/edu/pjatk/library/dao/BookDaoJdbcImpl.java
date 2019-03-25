@@ -11,6 +11,7 @@ public class BookDaoJdbcImpl implements BookDao {
     public PreparedStatement preparedStatementGetAll;
     public PreparedStatement preparedStatementInsert;
     public PreparedStatement preparedStatementGetBook;
+    public PreparedStatement preparedStatementDelete;
     Connection connection;
 
 
@@ -28,6 +29,7 @@ public class BookDaoJdbcImpl implements BookDao {
                 "INSERT INTO Book (title, year) VALUES (?, ?)",
                 Statement.RETURN_GENERATED_KEYS);
         preparedStatementGetBook = connection.prepareStatement("SELECT id, title, year FROM Book WHERE id = ?");
+        preparedStatementDelete = connection.prepareStatement("DELETE FROM Book where id = ?");
 
     }
 
@@ -76,5 +78,16 @@ public class BookDaoJdbcImpl implements BookDao {
         preparedStatementInsert.setInt(2, book.getYear());
         int r = preparedStatementInsert.executeUpdate();
         return r;
+    }
+
+    @Override
+    public int deleteBook(Book book) throws SQLException {
+        try {
+            preparedStatementDelete.setLong(1, book.getId());
+            int r = preparedStatementDelete.executeUpdate();
+            return r;
+        } catch (SQLException e) {
+            throw new IllegalStateException(e.getMessage() + "\n" + e.getStackTrace().toString());
+        }
     }
 }

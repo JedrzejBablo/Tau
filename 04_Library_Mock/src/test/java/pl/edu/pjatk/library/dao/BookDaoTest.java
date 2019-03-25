@@ -61,6 +61,8 @@ public class BookDaoTest {
     PreparedStatement insertStatementMock;
     @Mock
     PreparedStatement selectByIdStatementMock;
+    @Mock
+    PreparedStatement deleteStatementMock;
 
     @Before
     public void setup() throws SQLException {
@@ -76,6 +78,7 @@ public class BookDaoTest {
         when(connection.prepareStatement("SELECT id, title, year FROM Book ORDER BY id")).thenReturn(selectStatementMock);
         when(connection.prepareStatement("INSERT INTO Book (title, year) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS)).thenReturn(insertStatementMock);
         when(connection.prepareStatement("SELECT id, title, year FROM Book WHERE id = ?")).thenReturn(selectByIdStatementMock);
+        when(connection.prepareStatement("DELETE FROM Book where id = ?")).thenReturn(deleteStatementMock);
     }
 
     @Test
@@ -140,7 +143,7 @@ public class BookDaoTest {
     }
 
     @Test
-    public void checkGettingById() throws Exception {
+    public void checkGettingById() throws SQLException {
         AbstractResultSet mockedResultSet = mock(AbstractResultSet.class);
         when(mockedResultSet.next()).thenCallRealMethod();
         when(mockedResultSet.getLong("id")).thenReturn(initialDatabaseState.get(5).getId());
@@ -162,4 +165,17 @@ public class BookDaoTest {
         Mockito.verify(mockedResultSet, times(1)).next();
     }
 
+    @Test
+    public void checkDelete() throws SQLException {
+        InOrder inOrder = inOrder(deleteStatementMock);
+        when(deleteStatementMock.executeUpdate()).thenReturn(1);
+
+        BookDaoJdbcImpl dao = new BookDaoJdbcImpl();
+        dao.setConnection(connection);
+        Book book = initialDatabaseState.get(5);
+        dao.deleteBook(book);
+
+        inOrder.verify(deleteStatementMock, times(1)).setLong(1, 5);
+        inOrder.verify(deleteStatementMock).executeUpdate();
+    }
 }
