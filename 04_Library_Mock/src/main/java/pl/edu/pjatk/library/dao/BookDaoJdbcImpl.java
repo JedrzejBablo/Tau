@@ -12,6 +12,7 @@ public class BookDaoJdbcImpl implements BookDao {
     public PreparedStatement preparedStatementInsert;
     public PreparedStatement preparedStatementGetBook;
     public PreparedStatement preparedStatementDelete;
+    public PreparedStatement preparedStatementUpdate;
     Connection connection;
 
 
@@ -30,6 +31,7 @@ public class BookDaoJdbcImpl implements BookDao {
                 Statement.RETURN_GENERATED_KEYS);
         preparedStatementGetBook = connection.prepareStatement("SELECT id, title, year FROM Book WHERE id = ?");
         preparedStatementDelete = connection.prepareStatement("DELETE FROM Book where id = ?");
+        preparedStatementUpdate = connection.prepareStatement("UPDATE Book SET title=?,year=? WHERE id = ?");
 
     }
 
@@ -81,7 +83,27 @@ public class BookDaoJdbcImpl implements BookDao {
     }
 
     @Override
-    public int deleteBook(Book book) throws SQLException {
+    public int updateBook(Book book) throws SQLException {
+        int count = 0;
+        try {
+            preparedStatementUpdate.setString(1, book.getTitle());
+            preparedStatementUpdate.setInt(2, book.getYear());
+            if (book.getId() != null) {
+                preparedStatementUpdate.setLong(3, book.getId());
+            } else {
+                preparedStatementUpdate.setLong(3, -1);
+            }
+            count = preparedStatementUpdate.executeUpdate();
+        } catch (SQLException e) {
+            throw new IllegalStateException(e.getMessage() + "\n" + e.getStackTrace().toString());
+        }
+        if (count <= 0)
+            throw new SQLException("Book not found for update");
+        return count;
+    }
+
+    @Override
+    public int deleteBook(Book book) {
         try {
             preparedStatementDelete.setLong(1, book.getId());
             int r = preparedStatementDelete.executeUpdate();

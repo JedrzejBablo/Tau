@@ -63,6 +63,8 @@ public class BookDaoTest {
     PreparedStatement selectByIdStatementMock;
     @Mock
     PreparedStatement deleteStatementMock;
+    @Mock
+    PreparedStatement updateStatementMock;
 
     @Before
     public void setup() throws SQLException {
@@ -79,6 +81,7 @@ public class BookDaoTest {
         when(connection.prepareStatement("INSERT INTO Book (title, year) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS)).thenReturn(insertStatementMock);
         when(connection.prepareStatement("SELECT id, title, year FROM Book WHERE id = ?")).thenReturn(selectByIdStatementMock);
         when(connection.prepareStatement("DELETE FROM Book where id = ?")).thenReturn(deleteStatementMock);
+        when(connection.prepareStatement("UPDATE Book SET title=?,year=? WHERE id = ?")).thenReturn(updateStatementMock);
     }
 
     @Test
@@ -165,6 +168,18 @@ public class BookDaoTest {
         Mockito.verify(mockedResultSet, times(1)).next();
     }
 
+    @Test(expected = SQLException.class)
+    public void checkExceptionGettingById() throws SQLException {
+        AbstractResultSet mockedResultSet = mock(AbstractResultSet.class);
+        when(mockedResultSet.next()).thenReturn(false);
+        when(selectByIdStatementMock.executeQuery()).thenReturn(mockedResultSet);
+
+
+        BookDaoJdbcImpl dao = new BookDaoJdbcImpl();
+        dao.setConnection(connection);
+        dao.getBook(5L);
+    }
+
     @Test
     public void checkDelete() throws SQLException {
         InOrder inOrder = inOrder(deleteStatementMock);
@@ -178,4 +193,38 @@ public class BookDaoTest {
         inOrder.verify(deleteStatementMock, times(1)).setLong(1, 5);
         inOrder.verify(deleteStatementMock).executeUpdate();
     }
+
+    @Test
+    public void checkUpdate() throws SQLException {
+        InOrder inOrder = inOrder(updateStatementMock);
+        when(updateStatementMock.executeUpdate()).thenReturn(1);
+
+        BookDaoJdbcImpl dao = new BookDaoJdbcImpl();
+        dao.setConnection(connection);
+        Book book = initialDatabaseState.get(5);
+        book.setTitle("Opowiadanie");
+        book.setYear(2005);
+        dao.updateBook(book);
+
+        inOrder.verify(updateStatementMock, times(1)).setString(1, "Opowiadanie");
+        inOrder.verify(updateStatementMock, times(1)).setInt(2, 2005);
+        inOrder.verify(updateStatementMock, times(1)).setLong(3, 5);
+        inOrder.verify(updateStatementMock).executeUpdate();
+
+    }
+
+    @Test(expected = SQLException.class)
+    public void checkExceptionUpdate() throws SQLException {
+        InOrder inOrder = inOrder(updateStatementMock);
+        when(updateStatementMock.executeUpdate()).thenReturn(0);
+
+        BookDaoJdbcImpl dao = new BookDaoJdbcImpl();
+        dao.setConnection(connection);
+        Book book = initialDatabaseState.get(5);
+        book.setTitle("Opowiadanie");
+        book.setYear(2005);
+        dao.updateBook(book);
+
+    }
+
 }
