@@ -1,0 +1,14 @@
+
+(stories/book_model.story)
+Scenario: It is "wiedzmin" or not
+Given this is "<title>" (PENDING)
+When Customer ask about this book (NOT PERFORMED)
+Then I should be told "<answer>" Examples: | title | answer |     | Wiedzmin | Yes |     | Gwiezdne wojny | no |     | LOTR | no | (NOT PERFORMED)
+@Given("this is \"<title>\"")
+@Pending
+public void givenThisIstitle() {
+  // PENDING
+}
+
+
+

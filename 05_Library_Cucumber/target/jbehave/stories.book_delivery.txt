@@ -1,0 +1,14 @@
+
+(stories/book_delivery.story)
+Scenario: Book delivery
+Given Delivery of 3 books
+When Books has been delivered
+Then Quantity of books has been increased by 3 (PENDING)
+@Then("Quantity of books has been increased by 3")
+@Pending
+public void thenQuantityOfBooksHasBeenIncreasedBy3() {
+  // PENDING
+}
+
+
+

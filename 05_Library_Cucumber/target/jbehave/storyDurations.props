@@ -1,0 +1,9 @@
+#org.jbehave.core.embedder.StoryManager
+#Tue Apr 02 10:19:27 CEST 2019
+stories/book_update.story=0
+stories/book_buying.story=0
+threads=1
+total=0
+stories/book_model.story=0
+stories/book_delivery.story=0
+threadAverage=0

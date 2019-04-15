@@ -1,0 +1,20 @@
+
+(stories/book_update.story)
+Scenario: Book after replacment change their title
+Given Book "Wiedzmin"
+When Book title should be updated to "Ostatnie zyczenie" (PENDING)
+Then Book have a new title (PENDING)
+@When("Book title should be updated to \"Ostatnie zyczenie\"")
+@Pending
+public void whenBookTitleShouldBeUpdatedToOstatnieZyczenie() {
+  // PENDING
+}
+
+@Then("Book have a new title")
+@Pending
+public void thenBookHaveANewTitle() {
+  // PENDING
+}
+
+
+
