@@ -79,6 +79,9 @@ public class BookDaoJdbcImpl implements BookDao {
         preparedStatementInsert.setString(1, book.getTitle());
         preparedStatementInsert.setInt(2, book.getYear());
         int r = preparedStatementInsert.executeUpdate();
+        if (r <= 0) {
+            throw new SQLException();
+        }
         return r;
     }
 
@@ -103,13 +106,13 @@ public class BookDaoJdbcImpl implements BookDao {
     }
 
     @Override
-    public int deleteBook(Book book) {
-        try {
-            preparedStatementDelete.setLong(1, book.getId());
-            int r = preparedStatementDelete.executeUpdate();
-            return r;
-        } catch (SQLException e) {
-            throw new IllegalStateException(e.getMessage() + "\n" + e.getStackTrace().toString());
+    public int deleteBook(Book book) throws SQLException {
+        preparedStatementDelete.setLong(1, book.getId());
+        int r = preparedStatementDelete.executeUpdate();
+        if (r <= 0) {
+            throw new SQLException();
         }
+        return r;
+
     }
 }

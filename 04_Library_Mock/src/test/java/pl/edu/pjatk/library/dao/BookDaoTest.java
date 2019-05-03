@@ -145,6 +145,26 @@ public class BookDaoTest {
         inorder.verify(insertStatementMock).executeUpdate();
     }
 
+    @Test(expected = SQLException.class)
+    public void checkExceptionAdding() throws SQLException {
+
+        InOrder inorder = inOrder(insertStatementMock);
+        when(insertStatementMock.executeUpdate()).thenReturn(0);
+
+
+        BookDaoJdbcImpl dao = new BookDaoJdbcImpl();
+        dao.setConnection(connection);
+        Book book = new Book();
+        book.setTitle("list");
+        book.setYear(2019);
+        dao.addBook(book);
+
+
+        inorder.verify(insertStatementMock, times(1)).setString(1, "list");
+        inorder.verify(insertStatementMock, times(1)).setInt(2, 2019);
+        inorder.verify(insertStatementMock).executeUpdate();
+    }
+
     @Test
     public void checkGettingById() throws SQLException {
         AbstractResultSet mockedResultSet = mock(AbstractResultSet.class);
@@ -225,6 +245,20 @@ public class BookDaoTest {
         book.setYear(2005);
         dao.updateBook(book);
 
+    }
+
+    @Test(expected = SQLException.class)
+    public void checkExceptionDelete() throws SQLException {
+        InOrder inOrder = inOrder(deleteStatementMock);
+        when(deleteStatementMock.executeUpdate()).thenReturn(0);
+
+        BookDaoJdbcImpl dao = new BookDaoJdbcImpl();
+        dao.setConnection(connection);
+        Book book = initialDatabaseState.get(5);
+        dao.deleteBook(book);
+
+        inOrder.verify(deleteStatementMock, times(1)).setLong(1, 5);
+        inOrder.verify(deleteStatementMock).executeUpdate();
     }
 
 }
