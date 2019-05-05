@@ -71,7 +71,7 @@ public class LibraryManagerTest {
 
 
     @Test
-    public void deletePhoneTest() {
+    public void deleteBookTest() {
         int prevSize = libraryManager.findAllBook().size();
         Book book = libraryManager.findBookById(bookIds.get(0));
         assertNotNull(book);
@@ -85,7 +85,7 @@ public class LibraryManagerTest {
         assertEquals("List", books.get(0).getTitle());
     }
     @Test()
-    public void updatePhoneTest() {
+    public void updateBookTest() {
         Book b = libraryManager.findBookById(3L);
         b.setTitle("Fraszka");
         libraryManager.updateBook(b);
