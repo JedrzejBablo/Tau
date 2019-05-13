@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pl.tau.library.domain.Book;
+import pl.tau.library.domain.Author;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Transactional
@@ -41,7 +43,7 @@ public class BookManagerHibernateImpl implements BookManager {
 
     @Override
     public Book findBookById(Long id) {
-        return (Book) sessionFactory.getCurrentSession().get(Book.class, id);
+        return sessionFactory.getCurrentSession().get(Book.class, id);
     }
 
     @Override
@@ -60,9 +62,47 @@ public class BookManagerHibernateImpl implements BookManager {
     @Override
     public List<Book> findBookByName(String bookName) {
         return (List<Book>) sessionFactory.getCurrentSession()
-                .getNamedQuery("book.findBook")
+                .getNamedQuery("book.findBookByName")
                 .setString("modelNameFragment", "%"+bookName+"%")
                 .list();
+    }
+
+    @Override
+    public List<Book> getAllBooksForAuthor(Author author) {
+        return (List<Book>) sessionFactory.getCurrentSession()
+                .getNamedQuery("book.findBooksByAuthor")
+                .setParameter("author", author)
+                .list();
+    }
+
+    @Override
+    public Long addAuthor(Author author) {
+        if (author.getId() != null)
+            throw new IllegalArgumentException("the director ID should be null if added to database");
+        sessionFactory.getCurrentSession().persist(author);
+        for (Book book : author.getBooks()) {
+            book.setAuthor(author);
+            sessionFactory.getCurrentSession().update(book);
+        }
+        sessionFactory.getCurrentSession().flush();
+        return author.getId();
+    }
+
+    @Override
+    public Author findAuthorById(Long id) {
+        return (Author) sessionFactory.getCurrentSession().get(Author.class, id);
+    }
+
+    @Override
+    public void transferBookToAnotherAuthor(Book book1, Book book2, Author author1, Author author2) {
+
+        book1.setAuthor(author2);
+        sessionFactory.getCurrentSession().save(author2);
+        sessionFactory.getCurrentSession().save(book1);
+
+        book2.setAuthor(author1);
+        sessionFactory.getCurrentSession().save(author1);
+        sessionFactory.getCurrentSession().save(book2);
     }
 
 }

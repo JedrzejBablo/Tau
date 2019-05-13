@@ -8,6 +8,7 @@ import static org.junit.Assume.assumeNoException;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Arrays;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,6 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import pl.tau.library.domain.Book;
+import pl.tau.library.domain.Author;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/beans.xml"})
@@ -31,9 +33,10 @@ public class LibraryManagerTest {
     @Autowired
     BookManager libraryManager;
 
-    List<Long> bookIds;
+    private List<Long> bookIds;
+    private List<Long> authorsIds;
 
-    private Book addBookHelper(String title, Integer year) {
+  /*  private Book addBookHelper(String title, Integer year) {
         Long bookId;
         Book book;
         book = new Book();
@@ -43,15 +46,19 @@ public class LibraryManagerTest {
         bookIds.add(bookId = libraryManager.addBookjkk(book));
         assertNotNull(bookId);
         return book;
-    }
+    }*/
 
 
     @Before
     public void setup() {
         bookIds = new LinkedList<>();
-        addBookHelper("Wiedzmin", 2005);
-        addBookHelper("Opowiadanie", 2010);
-        Book book = addBookHelper("List", 2015);
+        bookIds.add(libraryManager.addBookjkk(new Book("Opowiadanie", 2003)));
+        bookIds.add(libraryManager.addBookjkk(new Book("Wiedzmin", 2005)));
+        Book book = libraryManager.findBookById(bookIds.get(0));
+        Book book1 = libraryManager.findBookById(bookIds.get(1));
+        authorsIds = new LinkedList<>();
+        authorsIds.add(libraryManager.addAuthor(new Author("Andrzej", new LinkedList<Book>(Arrays.asList(book)))));
+        authorsIds.add(libraryManager.addAuthor(new Author("Jan", new LinkedList<Book>(Arrays.asList(book1)))));
     }
 
     @Test
@@ -68,16 +75,25 @@ public class LibraryManagerTest {
         assertEquals(bookIds.size(), foundIds.size());
     }
 
-
+    @Test
+    public void getBookByIdTest() {
+        Book book = libraryManager.findBookById(bookIds.get(0));
+        assertEquals("Opowiadanie", book.getTitle());
+    }
 
     @Test
     public void deleteBookTest() {
-        int prevSize = libraryManager.findAllBook().size();
+        /*int prevSize = libraryManager.findAllBook().size();
         Book book = libraryManager.findBookById(bookIds.get(0));
         assertNotNull(book);
         libraryManager.deleteBook(book);
         assertNull(libraryManager.findBookById(bookIds.get(0)));
-        assertEquals(prevSize - 1, libraryManager.findAllBook().size());
+        assertEquals(prevSize - 1, libraryManager.findAllBook().size());*/
+
+        Book book = libraryManager.findBookById(bookIds.get(0));
+        libraryManager.deleteBook(book);
+        assertNull(libraryManager.findBookById(book.getId()));
+
     }
     @Test
     public void findBookByNameTest() {
@@ -91,4 +107,31 @@ public class LibraryManagerTest {
         libraryManager.updateBook(b);
         Assert.assertEquals("Fraszka",libraryManager.findBookById(3L).getTitle());
     }
+
+    @Test
+    public void findBooksByTitleTest() {
+        List<Book> books = libraryManager.findBookByName("Opowiadanie");
+        assertEquals(2, books.size());
+    }
+
+    @Test
+    public void findBooksByDAuthor() {
+        Author author = libraryManager.findAuthorById(authorsIds.get(1));
+        List<Book> books = libraryManager.getAllBooksForAuthor(author);
+        assertEquals(1, books.size());
+    }
+
+    @Test
+    public void transferBookToAnotherAuthor() {
+        Book book = libraryManager.findBookById(bookIds.get(0));
+        Book book1 = libraryManager.findBookById(bookIds.get(1));
+        Author author = libraryManager.findAuthorById(authorsIds.get(0));
+        Author author1 = libraryManager.findAuthorById(authorsIds.get(1));
+        libraryManager.transferBookToAnotherAuthor(
+                book, book1, author, author1);
+        assertEquals("Wiedzmin",libraryManager.getAllBooksForAuthor(author).get(0).getTitle());
+        assertEquals(1,libraryManager.getAllBooksForAuthor(author1).size());
+
+    }
+
 }

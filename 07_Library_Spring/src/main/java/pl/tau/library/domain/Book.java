@@ -6,7 +6,8 @@ import java.util.Objects;
 @Table(name = "Book")
 @NamedQueries({
         @NamedQuery(name = "book.all", query = "Select b from Book b"),
-        @NamedQuery(name = "book.findBook", query = "Select b from Book b where b.title like :modelNameFragment")
+        @NamedQuery(name = "book.findBook", query = "Select b from Book b where b.title like :modelNameFragment"),
+        @NamedQuery(name = "book.findBooksByAuthor", query = "Select c from Book c where c.author= :author")
 })
 public class Book {
     @Id
@@ -14,6 +15,17 @@ public class Book {
     private Long id;
     private String title;
     private Integer year;
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private Author author;
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
 
     public Book() {
     }
