@@ -95,23 +95,18 @@ public class LibraryManagerTest {
         assertNull(libraryManager.findBookById(book.getId()));
 
     }
-    @Test
-    public void findBookByNameTest() {
-        List<Book> books = libraryManager.findBookByName("Lis");
-        assertEquals("List", books.get(0).getTitle());
-    }
     @Test()
     public void updateBookTest() {
-        Book b = libraryManager.findBookById(3L);
+        Book b = libraryManager.findBookById(1L);
         b.setTitle("Fraszka");
         libraryManager.updateBook(b);
-        Assert.assertEquals("Fraszka",libraryManager.findBookById(3L).getTitle());
+        Assert.assertEquals("Fraszka",libraryManager.findBookById(1L).getTitle());
     }
 
     @Test
     public void findBooksByTitleTest() {
-        List<Book> books = libraryManager.findBookByName("Opowiadanie");
-        assertEquals(2, books.size());
+        List<Book> books = libraryManager.findBookByName("Opo");
+        assertEquals("Opowiadanie", books.get(0).getTitle());
     }
 
     @Test

@@ -8,10 +8,15 @@ import pl.tau.library.domain.Author;
 public interface BookManager {
 	
 	Long addBookjkk(Book book);
+
 	List<Book> findAllBook();
+
 	Book findBookById(Long id);
+
 	void deleteBook(Book book);
+
 	void updateBook(Book book);
+
 	List<Book> findBookByName(String bookName);
 
 	Long addAuthor(Author author);
