@@ -67,6 +67,11 @@ public class LibraryManagerTest {
     }
 
     @Test
+    public void addAuthorTest() {
+        assertTrue(authorsIds.size() > 0);
+    }
+
+    @Test
     public void getAllBooksTest() {
         List<Long> foundIds = new LinkedList<>();
         for (Book book : libraryManager.findAllBook()) {
@@ -83,13 +88,6 @@ public class LibraryManagerTest {
 
     @Test
     public void deleteBookTest() {
-        /*int prevSize = libraryManager.findAllBook().size();
-        Book book = libraryManager.findBookById(bookIds.get(0));
-        assertNotNull(book);
-        libraryManager.deleteBook(book);
-        assertNull(libraryManager.findBookById(bookIds.get(0)));
-        assertEquals(prevSize - 1, libraryManager.findAllBook().size());*/
-
         Book book = libraryManager.findBookById(bookIds.get(0));
         libraryManager.deleteBook(book);
         assertNull(libraryManager.findBookById(book.getId()));
@@ -110,10 +108,15 @@ public class LibraryManagerTest {
     }
 
     @Test
-    public void findBooksByDAuthor() {
+    public void findBooksByAuthor() {
         Author author = libraryManager.findAuthorById(authorsIds.get(1));
         List<Book> books = libraryManager.getAllBooksForAuthor(author);
         assertEquals(1, books.size());
+    }
+
+    @Test
+    public void findAuthorByIdTest() {
+        assertEquals("Andrzej", libraryManager.findAuthorById(authorsIds.get(0)).getFirstName());
     }
 
     @Test
